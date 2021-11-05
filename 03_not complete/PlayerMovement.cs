@@ -12,6 +12,16 @@ public class PlayerMovement : MonoBehaviour {
     private SpriteRenderer sr;
     private bool isGrounded;
 
+    public float maxHealth = 1000;
+    public float currentHealth;
+
+    public float takenHitRate = 2f;
+    public float nextHitTime = 0f;
+
+    public HealthBar healthBar;
+
+    public Transform opponent;
+
     private Animator animator;
 
     void Start() {
@@ -27,6 +37,34 @@ public class PlayerMovement : MonoBehaviour {
     void Update() {
         Move();
         Jump();
+        UpdateHealth();
+
+    }
+
+    void UpdateHealth()
+    {
+        opponent = GameObject.FindGameObjectWithTag("Opponent").transform;
+        
+            if ((Vector2.Distance(rb.position, opponent.position) < 1) && isGrounded == true)
+            {
+                if (Time.time >= nextHitTime)
+                {
+                    TakenDamage(0.1f);
+                    nextHitTime = Time.time + 1f / takenHitRate;
+                    if (currentHealth <= 0)
+                {
+                    animator.SetBool("IsDead", true);
+                }
+                }
+            }
+        
+    }
+
+    void TakenDamage(float damage)
+    {
+        currentHealth -= damage;
+     
+        healthBar.SetHealth(currentHealth);
     }
 
     void Move() {
@@ -42,6 +80,7 @@ public class PlayerMovement : MonoBehaviour {
         //rb.velocity = new Vector2((moveDirection) * speed, rb.velocity.y);
         animator.SetFloat("Speed", Mathf.Abs(rb.velocity.x));
     }
+
 
     void Jump() {
         if (Input.GetButtonDown("Jump") && isGrounded) {

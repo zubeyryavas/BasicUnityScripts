@@ -12,7 +12,6 @@ public class Patrol : MonoBehaviour
     private Transform player;
     private float distance;
 
-    private Animator animator;
     void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player").transform;
@@ -34,26 +33,8 @@ public class Patrol : MonoBehaviour
             _Patrol();
         }
 
-      //  if (distance <= 2)
-      //  {
-           // Attack();
-       // }
     }
 
-   // void Attack()
-   // {
-  //      Debug.Log(animator);
-    //    animator.SetTrigger("Attack");
-   // }
-    //void Chase()
-    //{
-    //    Vector2 target = new Vector2(player.position.x, rb.position.y);
-    //
-    //    Vector2 newPos = Vector2.MoveTowards(rb.position, target, speed * Time.deltaTime);
-
-    //   rb.MovePosition(newPos);
-
-   // }
 
     public void _Patrol()
     {
